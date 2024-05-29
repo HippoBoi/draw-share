@@ -1,10 +1,10 @@
-import { Box, Center, HStack, Text, VStack, useBreakpointValue } from '@chakra-ui/react'
+import { Box, Center, HStack, Text, VStack } from '@chakra-ui/react'
 import PostsList from '../components/PostsList'
 import SideBar from '../components/SideBar';
 import { useState } from 'react';
 
 const Feed = () => {
-    const smallScreen = useBreakpointValue({ base: true, lg: false });
+    const [isDrawerOpen, setDrawerOpen] = useState(false);
 
     return (
     <>
@@ -13,13 +13,11 @@ const Feed = () => {
         <PostsList></PostsList>
     </VStack>
 
-    {!smallScreen && (
-        <Box position={"relative"}>
-            <Box position={"fixed"} left={"0%"} top={"50%"} transform="translateY(-50%)">
-                <SideBar />
-            </Box>
+    <Box position={"relative"}>
+        <Box position={"fixed"} left={"0%"} top={"50%"} transform="translateY(-50%)">
+            <SideBar />
         </Box>
-    )}
+    </Box>
 
     <Center marginBottom={"50px"}>
         <HStack>

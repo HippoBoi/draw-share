@@ -1,21 +1,42 @@
-import { VStack, HStack, Box, useColorModeValue } from '@chakra-ui/react'
-import LinkButton from './LinkButton'
+import { VStack, Box, useColorModeValue, IconButton, Drawer, DrawerContent, DrawerCloseButton, DrawerBody, useBreakpointValue, DrawerHeader } from '@chakra-ui/react'
+import { useState } from 'react';
+import SideBarContent from './SideBarContent';
 
 const SideBar = () => {
-    const bgColor = useColorModeValue("gray.100", "#100913")
+    const [isDrawerOpen, setDrawerOpen] = useState(false);
+    const smallScreen = useBreakpointValue({ base: true, lg: false });
+    const bgColor = useColorModeValue("gray.100", "#100913");
 
-    return (
+    if (smallScreen) {
+        return (
+            <>
+            <IconButton
+                    aria-label="Open sidebar"
+                    position="fixed"
+                    top={"10%"}
+                    left={1}
+                    onClick={() => setDrawerOpen(!isDrawerOpen)}
+                    zIndex={1100}
+                />
+                <Drawer isOpen={isDrawerOpen} placement="left" onClose={() => setDrawerOpen(!isDrawerOpen)}>
+                    <DrawerContent bgColor={bgColor} maxWidth={"200px"}>
+                        <DrawerCloseButton />
+                        <DrawerHeader>Buscar</DrawerHeader>
+                        <DrawerBody marginTop={"20px"}>
+                            <VStack spacing={"10px"}>
+                            <SideBarContent />
+                            </VStack>
+                        </DrawerBody>
+                    </DrawerContent>
+                </Drawer>
+            </>
+        );
+
+    }
+    return ( 
         <Box bg={bgColor} p={4} borderRadius={"md"} boxShadow={"md"} width={"100%"} height={"100vh"}>
             <VStack marginLeft={1} marginTop={"60px"} spacing={5}>
-                <HStack>
-                    <LinkButton onClick={() => console.log("click")}>Tus dibujos</LinkButton>
-                </HStack>
-                <HStack>
-                    <LinkButton>Seguidos</LinkButton>
-                </HStack>
-                <HStack>
-                    <LinkButton>Guardados</LinkButton>
-                </HStack>
+                <SideBarContent />
             </VStack>
         </Box>
     );
