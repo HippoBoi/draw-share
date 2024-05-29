@@ -1,7 +1,7 @@
-import { Box, Button, Center, HStack, Text, VStack, useBreakpointValue } from '@chakra-ui/react'
+import { Box, Center, HStack, Text, VStack, useBreakpointValue } from '@chakra-ui/react'
 import PostsList from '../components/PostsList'
-import LinkButton from '../components/LinkButton';
 import SideBar from '../components/SideBar';
+import { useState } from 'react';
 
 const Feed = () => {
     const smallScreen = useBreakpointValue({ base: true, lg: false });

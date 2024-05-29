@@ -4,11 +4,11 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
-    const bgColor = useColorModeValue("red.200", "red.700")
+    const bgColor = useColorModeValue("red.200", "red.700");
     const gradientColor = useColorModeValue(
         "linear(to-r, #f1f1fd, #fdf1fd)", 
         "linear(to-r, #100913, #100913)"
-    )
+    );
     const [pfpURL, setPfpURL] = useState("");
     const navigate = useNavigate();
 
@@ -23,12 +23,12 @@ const NavBar = () => {
 
             <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
                 <Link as={"button"} onClick={() => navigate("/")} px={2} py={1} rounded={'md'} 
-                    _hover={{ textDecoration: 'none', bg: bgColor }}>
+                    _hover={{ bg: bgColor }}>
                     Reglas
                 </Link>
 
                 <Link as={"button"} onClick={() => navigate("/")} px={2} py={1} rounded={'md'} 
-                    _hover={{ textDecoration: 'none', bg: bgColor }}>
+                    _hover={{ bg: bgColor }}>
                     Contacto
                 </Link>
             </HStack>
@@ -53,10 +53,10 @@ const NavBar = () => {
                     variant={"link"}
                     rounded={'md'}
                     color={useColorModeValue("gray.700", "gray.200")}
-                    px={2} 
-                    py={1}
-                    mr={4}
-                    _hover={{ textDecoration: 'none', bg: bgColor }}>
+                    paddingX={2} 
+                    paddingY={1}
+                    marginRight={4}
+                    _hover={{ bg: bgColor }}>
                     Iniciar Sesión
                 </Button>
             </HStack>
