@@ -1,28 +1,50 @@
 import { Box, Button, FormControl, FormLabel, Heading, Input, Text, VStack, useToast } from '@chakra-ui/react'
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import apiClient from '../api-client';
 
 const LogInForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setLoading] = useState(false);
     const navigate = useNavigate();
     const toast = useToast();
 
-    const handleSubmit = async (event: React.FormEvent) => {
+    const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        setIsLoading(true);
+        setLoading(true);
 
-        setTimeout(() => {
-        setIsLoading(false);
-        toast({
-            title: 'Inicio de sesión exitoso',
-            description: 'Has iniciado sesión correctamente',
-            status: 'success',
-            duration: 5000,
-            isClosable: true,
-        });
-        }, 2000);
+        const formData = new FormData();
+        formData.append("email", email);
+        formData.append("password", password);
+
+        apiClient.post("/users/login/", formData, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then((res) => {
+                toast({
+                    title: "Inicio de sesión.",
+                    description: "Has iniciado sesión exitosamente.",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true
+                })
+            })
+            .catch(err => {
+                toast({
+                    title: "Error",
+                    description: err.message,
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true
+                })
+                console.log(err.message);
+            })
+            .finally(() => {
+                setLoading(false);
+            })
     };
 
     return (

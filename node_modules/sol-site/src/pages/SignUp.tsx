@@ -1,8 +1,9 @@
 import { Box, Button, FormControl, FormLabel, Heading, 
-    Input, VStack, Image, Center, 
+    Input, VStack, Image, Center, Text,
     useToast} from '@chakra-ui/react'
 import React, { FormEvent, useState } from 'react';
 import apiClient from '../api-client';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     const [username, setUsername] = useState("");
@@ -12,6 +13,7 @@ const SignUp = () => {
     const [pfp, setPfp] = useState<File | null>(null);
     const [pfpPreview, setPfpPreview] = useState("");
     const [isLoading, setLoading] = useState(false);
+    const navigate = useNavigate();
     const toast = useToast();
 
     const pfpChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,6 +121,16 @@ const SignUp = () => {
                     Registrar
                 </Button>
             </form>
+            <Text>¿Ya estás registrado?</Text>
+            <Text 
+                onClick={() => navigate("/login")}
+                as={"button"}
+                decoration={"underline"}
+                _hover={{"color": "red.400", 
+                    "fontSize": "17px",
+                    "transition": "0.2s ease"}}>
+                Inicia Sesión
+            </Text>
         </VStack>
         </Box>
     );
