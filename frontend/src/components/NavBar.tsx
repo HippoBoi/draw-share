@@ -1,6 +1,7 @@
 import { Box, Flex, HStack, Link, Button, useColorMode, useColorModeValue, IconButton, Text, Image } from '@chakra-ui/react';
 import { useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import blankPfp from "../assets/blank-pfp.webp"
+import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
@@ -9,7 +10,7 @@ const NavBar = () => {
         "linear(to-r, #f1f1fd, #fdf1fd)", 
         "linear(to-r, #100913, #100913)"
     );
-    const [pfpURL, setPfpURL] = useState("");
+    const [pfpURL, setPfpURL] = useState(blankPfp);
     const navigate = useNavigate();
 
     return (
@@ -45,8 +46,7 @@ const NavBar = () => {
                 mr={4}
             />
 
-            <HStack>
-                <Image src={pfpURL} />
+            <HStack spacing={"-5px"}>
                 <Button 
                     as={"button"} 
                     onClick={() => navigate("/login")} 
@@ -59,6 +59,7 @@ const NavBar = () => {
                     _hover={{ bg: bgColor }}>
                     Iniciar Sesión
                 </Button>
+                <Image src={pfpURL} width={"35px"} height={"35px"} rounded={20} marginLeft={"-5px"} />
             </HStack>
             </Flex>
         </Flex>

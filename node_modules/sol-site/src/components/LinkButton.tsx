@@ -4,13 +4,17 @@ import { ReactNode } from 'react'
 interface Props {
     children: ReactNode;
     onClick?: () => void;
+    color?: string;
+    boxShadow?: "md" | "lg";
 }
 
-const LinkButton = ({ onClick, children }: Props) => {
+const LinkButton = ({ children, onClick, color, boxShadow }: Props) => {
     const bgColor = useColorModeValue("red.200", "red.700");
 
     return (
         <Text 
+            bgColor={color && color}
+            boxShadow={boxShadow && boxShadow}
             as={"button"} 
             onClick={onClick} 
             rounded={'md'}

@@ -1,10 +1,12 @@
 import { Box, Button, FormControl, FormLabel, Heading, Input, Text, VStack, useToast } from '@chakra-ui/react'
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LogInForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
     const toast = useToast();
 
     const handleSubmit = async (event: React.FormEvent) => {
@@ -58,12 +60,14 @@ const LogInForm = () => {
             </form>
             <Text>¿No tienes una cuenta?</Text>
             <Text 
+                onClick={() => navigate("/register")}
                 as={"button"}
                 decoration={"underline"}
                 _hover={{"color": "red.400", 
                     "fontSize": "17px",
                     "transition": "0.2s ease"}}>
-                Registrate</Text>
+                Registrate
+            </Text>
         </VStack>
         </Box>
     );
