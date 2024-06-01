@@ -2,13 +2,7 @@ import { Box, Flex, HStack, Link, Button, useColorMode, useColorModeValue, IconB
 import { useEffect, useState } from 'react';
 import blankPfp from "../assets/blank-pfp.webp"
 import { useNavigate } from 'react-router-dom';
-import getUserData from '../services/user-data';
-
-interface User {
-    username: string;
-    email: string;
-    picture?: string;
-}
+import getUserData, { User } from '../services/user-data';
 
 const NavBar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
@@ -18,16 +12,15 @@ const NavBar = () => {
         "linear(to-r, #100913, #100913)"
     );
     const [user, setUser] = useState<User | null>(null);
-    const [pfpURL, setPfpURL] = useState(blankPfp);
     const navigate = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
+            console.log(token);
             getUserData(token)
                 .then((res) => {
                     setUser(res.data);
-                    console.log(user);
                 })
                 .catch(err => {
                     console.error('Error:', err);
@@ -69,19 +62,41 @@ const NavBar = () => {
             />
 
             <HStack spacing={"-5px"}>
-                <Button 
-                    as={"button"} 
-                    onClick={() => navigate("/login")} 
-                    variant={"link"}
-                    rounded={'md'}
-                    color={useColorModeValue("gray.700", "gray.200")}
-                    paddingX={2} 
-                    paddingY={1}
-                    marginRight={4}
-                    _hover={{ bg: bgColor }}>
-                    Iniciar Sesión
-                </Button>
-                <Image src={pfpURL} width={"35px"} height={"35px"} rounded={20} marginLeft={"-5px"} />
+                {user ? (
+                    <Button 
+                        as={"button"} 
+                        onClick={() => navigate("/login")} 
+                        variant={"link"}
+                        rounded={'md'}
+                        color={useColorModeValue("gray.700", "gray.200")}
+                        paddingX={2} 
+                        paddingY={1}
+                        _hover={{ bg: bgColor }}>
+                        <Image 
+                        src={ user.picture ? user.picture : blankPfp } 
+                        width={"35px"} 
+                        height={"35px"} 
+                        rounded={20}  />
+                        {user.username}
+                    </Button>
+                ) : (
+                    <Button 
+                        as={"button"} 
+                        onClick={() => navigate("/login")} 
+                        variant={"link"}
+                        rounded={'md'}
+                        color={useColorModeValue("gray.700", "gray.200")}
+                        paddingX={2} 
+                        paddingY={1}
+                        _hover={{ bg: bgColor }}>
+                        <Image 
+                        src={ blankPfp } 
+                        width={"35px"} 
+                        height={"35px"} 
+                        rounded={20} />
+                        Iniciar Sesión
+                    </Button>
+                )}
             </HStack>
             </Flex>
         </Flex>

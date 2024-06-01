@@ -2,10 +2,12 @@ import { Box, Button, FormControl, FormLabel, Heading, Input, Text, VStack, useT
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiClient from '../services/api-client';
+import getUserData, { User } from '../services/user-data';
 
 const LogInForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [user, setUser] = useState<User | null>(null);
     const [isLoading, setLoading] = useState(false);
     const navigate = useNavigate();
     const toast = useToast();
@@ -19,17 +21,20 @@ const LogInForm = () => {
             password: password
         }
 
-        apiClient.post("/users/login/", userData, {
+        apiClient.post("/users/token/", userData, {
             headers: {
                 "Content-Type": "application/json"
             }
         })
             .then((res) => {
-                const user = res.data.user;
-                localStorage.setItem("token", res.data.token)
+                const token = res.data.access;
+                getUserData(token).then(res => setUser(res.data))
+                localStorage.setItem("token", token);
+                console.log(localStorage.getItem("token"));
+                console.log(user, user?.username);
 
                 toast({
-                    title: "Bienvenid@, " + user.username,
+                    title: "Bienvenid@, " + user?.username,
                     description: "Has iniciado sesión exitosamente.",
                     status: "success",
                     duration: 3000,
