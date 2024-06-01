@@ -2,7 +2,7 @@ import { Box, Button, FormControl, FormLabel, Heading,
     Input, VStack, Image, Center, Text,
     useToast} from '@chakra-ui/react'
 import React, { FormEvent, useState } from 'react';
-import apiClient from '../api-client';
+import apiClient from '../services/api-client';
 import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {

@@ -1,7 +1,14 @@
 import { Box, Flex, HStack, Link, Button, useColorMode, useColorModeValue, IconButton, Text, Image } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import blankPfp from "../assets/blank-pfp.webp"
 import { useNavigate } from 'react-router-dom';
+import getUserData from '../services/user-data';
+
+interface User {
+    username: string;
+    email: string;
+    picture?: string;
+}
 
 const NavBar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
@@ -10,8 +17,23 @@ const NavBar = () => {
         "linear(to-r, #f1f1fd, #fdf1fd)", 
         "linear(to-r, #100913, #100913)"
     );
+    const [user, setUser] = useState<User | null>(null);
     const [pfpURL, setPfpURL] = useState(blankPfp);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            getUserData(token)
+                .then((res) => {
+                    setUser(res.data);
+                    console.log(user);
+                })
+                .catch(err => {
+                    console.error('Error:', err);
+                });
+        }
+    }, [])
 
     return (
         <Box px={4} bgGradient={gradientColor} position={"fixed"} width={"100%"} top={"0%"} zIndex={1000}>

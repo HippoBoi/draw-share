@@ -1,7 +1,7 @@
 import { Box, Button, FormControl, FormLabel, Heading, Input, Text, VStack, useToast } from '@chakra-ui/react'
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import apiClient from '../api-client';
+import apiClient from '../services/api-client';
 
 const LogInForm = () => {
     const [email, setEmail] = useState('');
@@ -26,7 +26,8 @@ const LogInForm = () => {
         })
             .then((res) => {
                 const user = res.data.user;
-                console.log(user);
+                localStorage.setItem("token", res.data.token)
+
                 toast({
                     title: "Bienvenid@, " + user.username,
                     description: "Has iniciado sesión exitosamente.",
