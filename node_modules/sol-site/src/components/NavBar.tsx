@@ -2,7 +2,7 @@ import { Box, Flex, HStack, Link, Button, useColorMode, useColorModeValue, IconB
 import { useEffect, useState } from 'react';
 import blankPfp from "../assets/blank-pfp.webp"
 import { useNavigate } from 'react-router-dom';
-import getUserData, { User } from '../services/user-data';
+import { getUserData, User } from '../services/user-data';
 
 const NavBar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
@@ -64,7 +64,7 @@ const NavBar = () => {
                 {user ? (
                     <Button 
                         as={"button"} 
-                        onClick={() => navigate("/login")} 
+                        onClick={() => navigate(`/user/${user.username}`)} 
                         variant={"link"}
                         rounded={'md'}
                         color={useColorModeValue("gray.700", "gray.200")}

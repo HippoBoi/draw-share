@@ -30,7 +30,7 @@ const LogInForm = () => {
                 const user = res.data.user;
                 localStorage.setItem("token", token);
 
-                navigate("/");
+                navigate(`/user/${user.username}`);
 
                 toast({
                     title: "Bienvenid@, " + user.username,

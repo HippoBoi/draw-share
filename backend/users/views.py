@@ -8,6 +8,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from .models import User
 from .serializers import UserSerializer
 
 @api_view(["POST"])
@@ -19,6 +20,28 @@ def register_user(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UserDetail(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def get(self, request):
+        user = request.user
+        user_data = {
+            "username": user.username,
+            "email": user.email,
+            "picture": user.picture.url if user.picture else None
+        }
+        return Response(user_data, status=status.HTTP_200_OK)
+
+class PublicUserDetail(APIView):
+    def get(self, request, username):
+        try:
+            user = User.objects.get(username=username)
+            user_data = UserSerializer(user).data
+            return Response(user_data, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({"error" : "Couldn't find user"}, status=status.HTTP_404_NOT_FOUND)
 
 class CustomTokenSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
@@ -35,19 +58,6 @@ class CustomTokenSerializer(TokenObtainPairSerializer):
 
 class CustomTokenView(TokenObtainPairView):
     serializer_class = CustomTokenSerializer
-
-class UserDetail(APIView):
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
-
-    def get(self, request):
-        user = request.user
-        user_data = {
-            "username": user.username,
-            "email": user.email,
-            "picture": user.picture.url if user.picture else None
-        }
-        return Response(user_data, status=status.HTTP_200_OK)
 
 class LogOutView(APIView):
     def post(request):

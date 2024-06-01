@@ -6,7 +6,7 @@ export interface User {
     picture?: string;
 }
 
-const getUserData = (token: string) => {
+export const getUserData = (token: string) => {
     return(apiClient.get("/users/user/", {
         headers: {
             "Authorization": `Bearer ${token}`
@@ -14,4 +14,6 @@ const getUserData = (token: string) => {
     }));
 };
 
-export default getUserData;
+export const getUserDataByName = (username: string) => {
+    return (apiClient.get(`/users/user/${username}`));
+}
