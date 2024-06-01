@@ -1,10 +1,12 @@
-from django.shortcuts import render
-from django.contrib.auth import authenticate, login, logout, get_user_model
-from rest_framework import status
+from django.contrib.auth import login, logout, get_user_model
+from rest_framework import status, serializers
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .serializers import UserSerializer
 
@@ -17,6 +19,22 @@ def register_user(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CustomTokenSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        data.update({
+            "user": {
+                "username": self.user.username,
+                "email": self.user.email,
+                "picture": self.user.picture.url if self.user.picture else None
+            }
+        })
+        return data
+
+class CustomTokenView(TokenObtainPairView):
+    serializer_class = CustomTokenSerializer
 
 class UserDetail(APIView):
     permission_classes = [IsAuthenticated]
