@@ -49,27 +49,6 @@ class UserDetail(APIView):
         }
         return Response(user_data, status=status.HTTP_200_OK)
 
-class LogInView(APIView):
-    def post(self, request):
-        email = request.data.get("email")
-        password = request.data.get("password")
-        user_model = get_user_model()
-
-        try:
-            user = user_model.objects.get(email=email)
-            if (user.check_password(password)):
-                user_data = {
-                    "username": user.username,
-                    "email": user.email,
-                    "picture": user.picture.url if user.picture else None
-                }
-                login(request, user)
-                return Response({ "detail": "Logged successfully.", "user": user_data }, status=status.HTTP_200_OK)
-            else:
-                return Response({ "error": "Couldn't validate credentials." }, status=status.HTTP_401_UNAUTHORIZED)
-        except user_model.DoesNotExist:
-            return Response({ "error": "Couldn't validate credentials." }, status=status.HTTP_401_UNAUTHORIZED)
-
 class LogOutView(APIView):
     def post(request):
         logout(request)
