@@ -10,22 +10,23 @@ const LogInForm = () => {
     const navigate = useNavigate();
     const toast = useToast();
 
-    const handleSubmit = async (event: FormEvent) => {
+    const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
         setLoading(true);
 
-        const formData = new FormData();
-        formData.append("email", email);
-        formData.append("password", password);
+        const userData = {
+            email: email,
+            password: password
+        }
 
-        apiClient.post("/users/login/", formData, {
+        apiClient.post("/users/login/", userData, {
             headers: {
                 "Content-Type": "application/json"
             }
         })
             .then((res) => {
                 toast({
-                    title: "Inicio de sesión.",
+                    title: "Bienvenid@, " + res.data.username,
                     description: "Has iniciado sesión exitosamente.",
                     status: "success",
                     duration: 5000,

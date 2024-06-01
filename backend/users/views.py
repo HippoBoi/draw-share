@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
@@ -20,12 +20,17 @@ class LogInView(APIView):
     def post(self, request):
         email = request.data.get("email")
         password = request.data.get("password")
-        user = authenticate(request, email=email, password=password)
-        if user is not None:
-            login(request, user)
-            return Response({ "detail": "Logged successfully." }, status=status.HTTP_200_OK)
-        else:
-            return Response({ "error": "Could not authenticate." }, status=status.HTTP_401_UNAUTHORIZED)
+        user_model = get_user_model()
+
+        try:
+            user = user_model.objects.get(email=email)
+            if (user.check_password(password)):
+                login(request, user)
+                return Response({ "detail": "Logged successfully.", "username": user.username }, status=status.HTTP_200_OK)
+            else:
+                return Response({ "error": "Couldn't validate credentials." }, status=status.HTTP_401_UNAUTHORIZED)
+        except user_model.DoesNotExist:
+            return Response({ "error": "Couldn't validate credentials." }, status=status.HTTP_401_UNAUTHORIZED)
 
 class LogOutView(APIView):
     def post(request):
