@@ -25,11 +25,13 @@ const LogInForm = () => {
             }
         })
             .then((res) => {
+                const user = res.data.user;
+                console.log(user);
                 toast({
-                    title: "Bienvenid@, " + res.data.username,
+                    title: "Bienvenid@, " + user.username,
                     description: "Has iniciado sesión exitosamente.",
                     status: "success",
-                    duration: 5000,
+                    duration: 3000,
                     isClosable: true
                 })
             })
@@ -38,7 +40,7 @@ const LogInForm = () => {
                     title: "Error",
                     description: err.message,
                     status: "error",
-                    duration: 5000,
+                    duration: 3000,
                     isClosable: true
                 })
                 console.log(err.message);
