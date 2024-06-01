@@ -2,13 +2,12 @@ import { Box, Button, FormControl, FormLabel, Heading, Input, Text, VStack, useT
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiClient from '../services/api-client';
-import getUserData, { User } from '../services/user-data';
 
 const LogInForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [user, setUser] = useState<User | null>(null);
     const [isLoading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const toast = useToast();
 
@@ -28,16 +27,16 @@ const LogInForm = () => {
         })
             .then((res) => {
                 const token = res.data.access;
-                getUserData(token).then(res => setUser(res.data))
+                const user = res.data.user;
                 localStorage.setItem("token", token);
-                console.log(localStorage.getItem("token"));
-                console.log(user, user?.username);
+
+                navigate("/");
 
                 toast({
-                    title: "Bienvenid@, " + user?.username,
+                    title: "Bienvenid@, " + user.username,
                     description: "Has iniciado sesión exitosamente.",
                     status: "success",
-                    duration: 3000,
+                    duration: 4000,
                     isClosable: true
                 })
             })
@@ -46,7 +45,7 @@ const LogInForm = () => {
                     title: "Error",
                     description: err.message,
                     status: "error",
-                    duration: 3000,
+                    duration: 4000,
                     isClosable: true
                 })
                 console.log(err.message);
@@ -74,10 +73,13 @@ const LogInForm = () => {
             <FormControl id="password" isRequired mt={4}>
                 <FormLabel>Contraseña</FormLabel>
                 <Input
-                type="password"
+                type={ showPassword ? "text" : "password" }
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 />
+                <Button onClick={() => { setShowPassword(!showPassword) }} boxShadow='lg'>
+                    { showPassword ? "Ocultar" : "Mostrar"}
+                </Button>
             </FormControl>
             <Button
                 type="submit"

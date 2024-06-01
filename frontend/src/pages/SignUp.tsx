@@ -46,7 +46,7 @@ const SignUp = () => {
                     title: "Felicidades, " + username + "!",
                     description: "Tu cuenta fue creada exitosamente.",
                     status: "success",
-                    duration: 5000,
+                    duration: 4000,
                     isClosable: true
                 })
             })
@@ -55,7 +55,7 @@ const SignUp = () => {
                     title: "Error",
                     description: err.message,
                     status: "error",
-                    duration: 5000,
+                    duration: 4000,
                     isClosable: true
                 })
                 console.log(err.message);
