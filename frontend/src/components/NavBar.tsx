@@ -3,19 +3,29 @@ import { useEffect, useState } from 'react';
 import blankPfp from "../assets/blank-pfp.webp"
 import { useNavigate } from 'react-router-dom';
 import { getUserData, User } from '../services/user-data';
+import { domain } from '../services/api-client';
 
 const NavBar = () => {
+    const [user, setUser] = useState<User | null>(null);
+    const token = localStorage.getItem("token");
+    const navigate = useNavigate();
     const { colorMode, toggleColorMode } = useColorMode();
     const bgColor = useColorModeValue("red.200", "red.700");
     const gradientColor = useColorModeValue(
         "linear(to-r, #f1f1fd, #fdf1fd)", 
         "linear(to-r, #100913, #100913)"
     );
-    const [user, setUser] = useState<User | null>(null);
-    const navigate = useNavigate();
+
+    const navEndpoint = () => {
+        if (user) {
+            navigate(`/user/${user.username}`)
+        }
+        else {
+            navigate("/login")
+        }
+    }
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
         if (token) {
             getUserData(token)
                 .then((res) => {
@@ -61,41 +71,22 @@ const NavBar = () => {
             />
 
             <HStack spacing={"-5px"}>
-                {user ? (
-                    <Button 
-                        as={"button"} 
-                        onClick={() => navigate(`/user/${user.username}`)} 
-                        variant={"link"}
-                        rounded={'md'}
-                        color={useColorModeValue("gray.700", "gray.200")}
-                        paddingX={2} 
-                        paddingY={1}
-                        _hover={{ bg: bgColor }}>
-                        <Image 
-                        src={ user.picture ? user.picture : blankPfp } 
-                        width={"35px"} 
-                        height={"35px"} 
-                        rounded={20}  />
-                        {user.username}
-                    </Button>
-                ) : (
-                    <Button 
-                        as={"button"} 
-                        onClick={() => navigate("/login")} 
-                        variant={"link"}
-                        rounded={'md'}
-                        color={useColorModeValue("gray.700", "gray.200")}
-                        paddingX={2} 
-                        paddingY={1}
-                        _hover={{ bg: bgColor }}>
-                        <Image 
-                        src={ blankPfp } 
-                        width={"35px"} 
-                        height={"35px"} 
-                        rounded={20} />
-                        Iniciar Sesión
-                    </Button>
-                )}
+                <Button 
+                    as={"button"} 
+                    onClick={navEndpoint} 
+                    variant={"link"}
+                    rounded={'md'}
+                    color={useColorModeValue("gray.700", "gray.200")}
+                    paddingX={2} 
+                    paddingY={1}
+                    _hover={{ bg: bgColor }}>
+                    <Image 
+                    src={ user ? user.picture ? domain + user.picture : blankPfp : blankPfp } 
+                    width={"35px"} 
+                    height={"35px"} 
+                    rounded={20}  />
+                    { user ? user.username : "Iniciar Sesión"}
+                </Button>
             </HStack>
             </Flex>
         </Flex>
