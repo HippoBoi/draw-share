@@ -4,12 +4,15 @@
     "description": "a web site to upload and share drawings world wide.",
     "main": "index.js",
     "workspaces": [
-      "frontend",
-      "backend"
+        "frontend",
+        "backend"
     ],
     "scripts": {
-      "test": "npm run dev"
+        "dev": "concurrently \"npm run dev --workspace=frontend\" \"cd backend && python manage.py runserver\""
     },
     "author": "hippo",
-    "license": "ISC"
+    "license": "ISC",
+    "devDependencies": {
+        "concurrently": "^8.2.2"
+    }
 }
