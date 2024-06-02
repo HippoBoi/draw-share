@@ -58,8 +58,3 @@ class CustomTokenSerializer(TokenObtainPairSerializer):
 
 class CustomTokenView(TokenObtainPairView):
     serializer_class = CustomTokenSerializer
-
-class LogOutView(APIView):
-    def post(request):
-        logout(request)
-        return Response({ "detail": "Logged out successfully." }, status=status.HTTP_200_OK)

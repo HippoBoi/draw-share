@@ -1,4 +1,4 @@
-import { Menu, MenuButton, Button, useColorModeValue, Center, MenuList, MenuItem, Image } from '@chakra-ui/react'
+import { Menu, MenuButton, Button, useColorModeValue, Center, MenuList, MenuItem, Image, useToast } from '@chakra-ui/react'
 import blankPfp from "../assets/blank-pfp.webp"
 import { domain } from '../services/api-client'
 import { User } from '../services/user-data'
@@ -14,7 +14,19 @@ const ProfileMenuButton = ({ user }: Props) => {
         "linear(to-r, #f1f1fd, #fdf1fd)", 
         "linear(to-r, #100913, #100913)"
     );
-    const hoverColor = useColorModeValue("red.200", "red.700");
+    const toast = useToast();
+
+    const LogOut = () => {
+        localStorage.removeItem("token");
+        navigate("/login");
+        toast({
+            title: "Sesión Cerrada",
+            description: "Has cerrado tu sesión exitosamente.",
+            status: "success",
+            duration: 4000,
+            isClosable: true
+        })
+    }
     
     if (user) {
         return (
@@ -35,7 +47,8 @@ const ProfileMenuButton = ({ user }: Props) => {
                 </MenuButton>
                 <MenuList bgGradient={bgColor}>
                     <MenuItem 
-                        bgGradient={bgColor} >
+                        bgGradient={bgColor}
+                        onClick={() => navigate(`/user/${user.username}`)} >
                         Perfil
                     </MenuItem>
                     <MenuItem 
@@ -43,7 +56,8 @@ const ProfileMenuButton = ({ user }: Props) => {
                         Configuración
                     </MenuItem>
                     <MenuItem 
-                        bgGradient={bgColor} >
+                        bgGradient={bgColor}
+                        onClick={LogOut} >
                         Cerrar Sesión
                     </MenuItem>
                 </MenuList>

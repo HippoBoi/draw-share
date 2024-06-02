@@ -28,6 +28,7 @@ const LogInForm = () => {
             .then((res) => {
                 const token = res.data.access;
                 const user = res.data.user;
+
                 localStorage.setItem("token", token);
 
                 navigate(`/user/${user.username}`);
