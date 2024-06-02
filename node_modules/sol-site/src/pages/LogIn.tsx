@@ -1,13 +1,16 @@
 import { Box, Button, FormControl, FormLabel, Heading, Input, Text, VStack, useToast } from '@chakra-ui/react'
-import { FormEvent, useState } from 'react';
+import { FormEvent, useContext, useReducer, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiClient from '../services/api-client';
+import userReducer from './userReducer';
+import UserContext from '../services/userContext';
 
 const LogInForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const { dispatch } = useContext(UserContext);
     const navigate = useNavigate();
     const toast = useToast();
 
@@ -31,7 +34,8 @@ const LogInForm = () => {
 
                 localStorage.setItem("token", token);
 
-                navigate(`/user/${user.username}`);
+                dispatch({ type: "CHANGE", user: user })
+                navigate("/");
 
                 toast({
                     title: "Bienvenid@, " + user.username,

@@ -1,12 +1,13 @@
 import { Box, Flex, HStack, Link, useColorMode, useColorModeValue, 
     IconButton, Text } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUserData, User } from '../services/user-data';
 import ProfileMenuButton from './ProfileMenuButton';
+import UserContext from '../services/userContext';
 
 const NavBar = () => {
-    const [user, setUser] = useState<User | null>(null);
+    const { user } = useContext(UserContext);
     const token = localStorage.getItem("token");
     const navigate = useNavigate();
     const { colorMode, toggleColorMode } = useColorMode();
@@ -15,18 +16,6 @@ const NavBar = () => {
         "linear(to-r, #f1f1fd, #fdf1fd)", 
         "linear(to-r, #100913, #100913)"
     );
-
-    useEffect(() => {
-        if (token) {
-            getUserData(token)
-                .then((res) => {
-                    setUser(res.data);
-                })
-                .catch(err => {
-                    console.error('Error:', err);
-                });
-        }
-    }, [])
 
     return (
         <Box px={4} bgGradient={gradientColor} position={"fixed"} width={"100%"} top={"0%"} zIndex={1000}>

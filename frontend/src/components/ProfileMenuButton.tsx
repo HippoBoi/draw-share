@@ -1,8 +1,11 @@
-import { Menu, MenuButton, Button, useColorModeValue, Center, MenuList, MenuItem, Image, useToast } from '@chakra-ui/react'
+import { Menu, MenuButton, Button, useColorModeValue, Center, MenuList, 
+    MenuItem, Image, useToast } from '@chakra-ui/react'
 import blankPfp from "../assets/blank-pfp.webp"
 import { domain } from '../services/api-client'
 import { User } from '../services/user-data'
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import UserContext from '../services/userContext';
 
 interface Props {
     user: User | null;
@@ -14,10 +17,13 @@ const ProfileMenuButton = ({ user }: Props) => {
         "linear(to-r, #f1f1fd, #fdf1fd)", 
         "linear(to-r, #100913, #100913)"
     );
+    const hoverColor = useColorModeValue("red.200", "red.700");
     const toast = useToast();
+    const { dispatch } = useContext(UserContext);
 
     const LogOut = () => {
         localStorage.removeItem("token");
+        dispatch({ type: "REMOVE" })
         navigate("/login");
         toast({
             title: "Sesión Cerrada",
@@ -73,7 +79,7 @@ const ProfileMenuButton = ({ user }: Props) => {
             color={useColorModeValue("gray.700", "gray.200")}
             paddingX={2} 
             paddingY={1}
-            _hover={{ bg: bgColor }}>
+            _hover={{ bg: hoverColor }}>
             <Image 
                 src={ blankPfp } 
                 width={"35px"} 
