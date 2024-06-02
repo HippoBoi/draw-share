@@ -1,9 +1,9 @@
-import { Box, Flex, HStack, Link, Button, useColorMode, useColorModeValue, IconButton, Text, Image } from '@chakra-ui/react';
+import { Box, Flex, HStack, Link, useColorMode, useColorModeValue, 
+    IconButton, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import blankPfp from "../assets/blank-pfp.webp"
 import { useNavigate } from 'react-router-dom';
 import { getUserData, User } from '../services/user-data';
-import { domain } from '../services/api-client';
+import ProfileMenuButton from './ProfileMenuButton';
 
 const NavBar = () => {
     const [user, setUser] = useState<User | null>(null);
@@ -15,15 +15,6 @@ const NavBar = () => {
         "linear(to-r, #f1f1fd, #fdf1fd)", 
         "linear(to-r, #100913, #100913)"
     );
-
-    const navEndpoint = () => {
-        if (user) {
-            navigate(`/user/${user.username}`)
-        }
-        else {
-            navigate("/login")
-        }
-    }
 
     useEffect(() => {
         if (token) {
@@ -71,22 +62,8 @@ const NavBar = () => {
             />
 
             <HStack spacing={"-5px"}>
-                <Button 
-                    as={"button"} 
-                    onClick={navEndpoint} 
-                    variant={"link"}
-                    rounded={'md'}
-                    color={useColorModeValue("gray.700", "gray.200")}
-                    paddingX={2} 
-                    paddingY={1}
-                    _hover={{ bg: bgColor }}>
-                    <Image 
-                    src={ user ? user.picture ? domain + user.picture : blankPfp : blankPfp } 
-                    width={"35px"} 
-                    height={"35px"} 
-                    rounded={20}  />
-                    { user ? user.username : "Iniciar Sesión"}
-                </Button>
+                <ProfileMenuButton
+                    user={user} />
             </HStack>
             </Flex>
         </Flex>
