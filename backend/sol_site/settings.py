@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+import dj_database_url
 from datetime import timedelta
 from pathlib import Path
 
@@ -80,13 +81,9 @@ WSGI_APPLICATION = 'sol_site.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sol_site',
-        'HOST': 'localhost',
-        'USER': 'root',
-        'PASSWORD': 'lapizlazuli2'
-    }
+    'default': dj_database_url.config(
+        default=os.getenv('CLEARDB_DATABASE_URL')
+    )
 }
 
 
