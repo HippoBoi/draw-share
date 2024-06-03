@@ -164,6 +164,6 @@ MEDIA_URL = "/media/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-ALLOWED_HOSTS = ['draw-share-hippo.onrender.com']
+ALLOWED_HOSTS = ["draw-share-hippo.onrender.com", "localhost"]
 
 CORS_ALLOW_ALL_ORIGINS = True
