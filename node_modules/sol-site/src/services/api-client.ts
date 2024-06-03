@@ -1,6 +1,8 @@
 import axios from "axios";
 
-export const domain = "http://localhost:8000";
+// http://localhost:8000
+
+export const domain = "https://draw-share-hippo.onrender.com";
 
 export default axios.create({
     baseURL: domain
