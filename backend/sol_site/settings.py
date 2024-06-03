@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'sol_site.wsgi.application'
 
 DATABASES = {    
     'default': dj_database_url.config(
-        default=os.getenv('CLEARDB_DATABASE_URL')
+        default=os.getenv('JAWSDB_URL')
     )
 }
 
