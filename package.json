@@ -10,7 +10,7 @@
     "scripts": {
         "dev": "concurrently \"npm run dev --workspace=frontend\" \"cd backend && python manage.py runserver\"",
         "dev:backend": "cd backend && gunicorn sol_site.wsgi --bind 0.0.0.0:$PORT",
-        "install": "pip install -r requirements.txt && cd backend && python manage.py makemigrations"
+        "install": "cd backend && pip install -r requirements.txt"
     },
     "author": "hippo",
     "license": "ISC",
