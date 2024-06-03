@@ -14,7 +14,7 @@ import dj_database_url
 from datetime import timedelta
 from pathlib import Path
 
-PORT = os.environ.get("PORT", 8000)
+PORT = os.environ.get('PORT', 8000)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +27,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-wliz%$d8jdz4iyj07lwcx)fd_7zkk9re0d3$2r8r9nz-4n17e4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['https://draw-share-hippo.onrender.com', 'localhost', '127.0.0.1']
