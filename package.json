@@ -10,7 +10,7 @@
     "scripts": {
         "dev": "concurrently \"npm run dev --workspace=frontend\" \"cd backend && python manage.py runserver\"",
         "dev:backend": "cd backend && python manage.py runserver",
-        "install": "cd backend && pip install -r requirements.txt"
+        "install": "pip install -r requirements.txt"
     },
     "author": "hippo",
     "license": "ISC",
