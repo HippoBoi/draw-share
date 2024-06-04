@@ -5,6 +5,16 @@ import { useEffect, useState } from 'react';
 const PostsList = () => {
     const [posts, setPosts] = useState<Post[]>([]);
 
+    useEffect(() => {
+        getAllPosts()
+            .then(res => {
+                setPosts(res.data)
+            })
+            .catch(err => {
+                console.log(err.message);
+            })
+    }, [])
+
     return (
         <List>
             <VStack spacing={"35px"}>
@@ -18,7 +28,7 @@ const PostsList = () => {
                             as="button"
                             onClick={() => console.log(post.title, post.user)}
                             _hover={{ opacity: 0.8 }}>
-                            <Image src={post.imageURL} />
+                            <Image src={post.image} />
                         </Box>
                     </VStack>
                 </ListItem>

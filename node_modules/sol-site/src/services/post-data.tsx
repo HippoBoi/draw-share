@@ -2,9 +2,10 @@ import apiClient from "./api-client";
 
 export interface Post {
     id: number;
-    title: string;
     user: string;
-    imageURL: string;
+    title: string;
+    description: string;
+    image: string;
 }
 
 export const getAllPosts = () => {

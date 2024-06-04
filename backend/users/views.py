@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.core.exceptions import ObjectDoesNotExist
 from .models import User, Post
 from .serializers import UserSerializer, PostSerializer
 
@@ -59,17 +60,26 @@ class CustomTokenView(TokenObtainPairView):
 
 @api_view(["POST"])
 def create_post(request):
-    if (request.method == "POST"):
-        newData = {
-            "user": User.objects.get(username=request.data["username"]).pk,
-            "title": request.data["title"],
-            "description": request.data["description"],
-            "image": request.data["image"]
-        }
-        print(newData)
-        serializer = PostSerializer(data=newData)
+    try:
+        user = User.objects.get(username=request.data["username"])
+    except ObjectDoesNotExist:
+        return Response({ "error": "Couldn't find user." }, status=status.HTTP_404_NOT_FOUND)
+    
+    newData = {
+        "user": user.pk,
+        "title": request.data["title"],
+        "description": request.data["description"],
+        "image": request.FILES.get("image")
+    }
+    serializer = PostSerializer(data=newData)
 
-        if (serializer.is_valid()):
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if (serializer.is_valid()):
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(["GET"])
+def get_posts(request):
+    posts = Post.objects.all()
+    serializer = PostSerializer(posts, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
