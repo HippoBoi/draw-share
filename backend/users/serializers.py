@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, Post
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,3 +26,25 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+    
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ["user", "title", "description", "image"]
+    
+    def create(self, validated_data):
+        user = validated_data["user"]
+        title = validated_data["title"]
+        description = validated_data["description"]
+        image = validated_data["image"]
+
+        post = Post(
+            user=user,
+            title=title,
+            description=description,
+            image = image
+        )
+
+        post.save()
+
+        return post

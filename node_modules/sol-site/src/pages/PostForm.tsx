@@ -4,6 +4,7 @@ import apiClient from '../services/api-client';
 import UserContext from '../services/userContext';
 
 const PostForm = () => {
+    const { user } = useContext(UserContext);
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
     const [image, setImage] = useState<File | null>(null);
@@ -14,18 +15,19 @@ const PostForm = () => {
     const textColor = useColorModeValue(
         "linear(to-r, #542c31, #12090b)",
         "linear(to-r, #d4dadf, #f26f9d)"
-    )
+    );
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
 
-        if (!image) {
+        if (!image || !user) {
             return;
         }
 
         setLoading(true);
         
         const formData = new FormData();
+        formData.append("username", user.username);
         formData.append("title", title);
         formData.append("description", desc);
         formData.append("image", image);

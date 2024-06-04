@@ -1,15 +1,13 @@
-from django.contrib.auth import login, logout, get_user_model
-from rest_framework import status, serializers
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from .models import User
-from .serializers import UserSerializer
+from .models import User, Post
+from .serializers import UserSerializer, PostSerializer
 
 @api_view(["POST"])
 def register_user(request):
@@ -58,3 +56,20 @@ class CustomTokenSerializer(TokenObtainPairSerializer):
 
 class CustomTokenView(TokenObtainPairView):
     serializer_class = CustomTokenSerializer
+
+@api_view(["POST"])
+def create_post(request):
+    if (request.method == "POST"):
+        newData = {
+            "user": User.objects.get(username=request.data["username"]).pk,
+            "title": request.data["title"],
+            "description": request.data["description"],
+            "image": request.data["image"]
+        }
+        print(newData)
+        serializer = PostSerializer(data=newData)
+
+        if (serializer.is_valid()):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -1,34 +1,9 @@
-import { Image, List, ListItem, VStack, Text, Button, Box } from '@chakra-ui/react';
-import React from 'react'
-
-interface Post {
-    id: number;
-    title: string;
-    user: string;
-    imageURL: string;
-}
+import { Image, List, ListItem, VStack, Text, Box } from '@chakra-ui/react';
+import { Post, getAllPosts } from '../services/post-data';
+import { useEffect, useState } from 'react';
 
 const PostsList = () => {
-    const posts: Post[] = [
-    {
-        id: 1,
-        title: "primer post", 
-        user: "papu",
-        imageURL: "https://ddragon.leagueoflegends.com/cdn/img/champion/tiles/nunu_2.jpg"
-    },
-    {
-        id: 2,
-        title: "segundo post que",
-        user: "papu2",
-        imageURL: "https://ddragon.leagueoflegends.com/cdn/img/champion/tiles/Nunu_0.jpg"
-    },
-    {
-        id: 3,
-        title: "post numero 3",
-        user: "papu3",
-        imageURL: "https://ddragon.leagueoflegends.com/cdn/img/champion/tiles/Shen_3.jpg"
-    }
-    ];
+    const [posts, setPosts] = useState<Post[]>([]);
 
     return (
         <List>

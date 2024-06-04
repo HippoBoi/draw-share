@@ -7,5 +7,6 @@ urlpatterns = [
     path("user/", views.UserDetail.as_view(), name="user-detail"),
     path("user/<str:username>/", views.PublicUserDetail.as_view(), name="public-user-detail"),
     path("token/", views.CustomTokenView.as_view(), name="token-obtain-pair"),
-    path("token/refresh/", TokenRefreshView.as_view(), name="token-refresh")
+    path("token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
+    path("post/", views.create_post, name="create-post")
 ]
