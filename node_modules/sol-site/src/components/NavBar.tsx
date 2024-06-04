@@ -1,14 +1,14 @@
 import { Box, Flex, HStack, Link, useColorMode, useColorModeValue, 
-    IconButton, Text } from '@chakra-ui/react';
+    IconButton, Text, 
+    Spinner} from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUserData, User } from '../services/user-data';
 import ProfileMenuButton from './ProfileMenuButton';
 import UserContext from '../services/userContext';
+import { getUserData } from '../services/user-data';
 
 const NavBar = () => {
-    const { user } = useContext(UserContext);
-    const token = localStorage.getItem("token");
+    const { user, dispatch } = useContext(UserContext);
     const navigate = useNavigate();
     const { colorMode, toggleColorMode } = useColorMode();
     const bgColor = useColorModeValue("red.200", "red.700");
@@ -16,6 +16,26 @@ const NavBar = () => {
         "linear(to-r, #f1f1fd, #fdf1fd)", 
         "linear(to-r, #100913, #100913)"
     );
+    const token = localStorage.getItem("token");
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (token) {
+            setLoading(true);
+
+            getUserData(token)
+                .then(res => {
+                    const user = res.data;
+                    dispatch({ type: "CHANGE", user: user });
+                })
+                .catch(err => {
+                    console.log(err.message);
+                })
+                .finally(() => {
+                    setLoading(false);
+                })
+        }
+    }, [token])
 
     return (
         <Box px={4} bgGradient={gradientColor} position={"fixed"} width={"100%"} top={"0%"} zIndex={1000}>
@@ -51,8 +71,12 @@ const NavBar = () => {
             />
 
             <HStack spacing={"-5px"}>
-                <ProfileMenuButton
+                {!loading ? (
+                    <ProfileMenuButton
                     user={user} />
+                ) : (
+                    <Spinner />
+                )}
             </HStack>
             </Flex>
         </Flex>
