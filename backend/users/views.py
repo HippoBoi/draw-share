@@ -42,6 +42,16 @@ class PublicUserDetail(APIView):
         except User.DoesNotExist:
             return Response({"error" : "Couldn't find user"}, status=status.HTTP_404_NOT_FOUND)
 
+@api_view(["GET"])
+def get_user_by_id(request, user_id):
+    try:
+        user = User.objects.get(pk=user_id)
+    except ObjectDoesNotExist:
+        return Response({"error": "Couldn't find user"}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = UserSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
 class CustomTokenSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)

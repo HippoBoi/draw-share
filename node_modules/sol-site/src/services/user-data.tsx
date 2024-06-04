@@ -17,3 +17,7 @@ export const getUserData = (token: string) => {
 export const getUserDataByName = (username: string) => {
     return (apiClient.get(`/users/user/${username}`));
 }
+
+export const getUserDataById = (user_id: number) => {
+    return (apiClient.get(`/users/user/${user_id}`));
+}

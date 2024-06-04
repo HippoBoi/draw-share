@@ -1,5 +1,5 @@
 import { Box, Center, HStack, Text, VStack } from '@chakra-ui/react'
-import PostsList from '../components/PostsList'
+import PostsList from '../components/Posts/PostsList'
 import SideBar from '../components/SideBar';
 import { useNavigate } from 'react-router-dom';
 
