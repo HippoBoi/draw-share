@@ -1,8 +1,11 @@
 import { Box, Center, HStack, Text, VStack } from '@chakra-ui/react'
 import PostsList from '../components/PostsList'
 import SideBar from '../components/SideBar';
+import { useNavigate } from 'react-router-dom';
 
 const Feed = () => {
+    const navigate = useNavigate();
+
     return (
         <>
         <VStack marginTop={"50px"} marginBottom={"100px"}>
@@ -20,7 +23,8 @@ const Feed = () => {
         <Center marginBottom={"50px"}>
             <HStack>
                 <Text>Parece que eso es todo por ahora. Vuelve más tarde o</Text>
-                <Text 
+                <Text
+                    onClick={() => navigate("/post")}
                     as={"button"} 
                     decoration={"underline"}
                     _hover={{"color": "red.400", 
