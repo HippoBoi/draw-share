@@ -1,12 +1,16 @@
-import { Image, List, ListItem, VStack, Text, Box } from '@chakra-ui/react';
+import { Image, List, ListItem, VStack, Text, Box, Skeleton } from '@chakra-ui/react';
 import { Post, getAllPosts } from '../../services/post-data';
 import { useEffect, useState } from 'react';
 import PostCard from './PostCard';
+import PostCardSkeleton from './PostCardSkeleton';
 
 const PostsList = () => {
     const [posts, setPosts] = useState<Post[]>([]);
+    const [isLoading, setLoading] = useState(false);
+    const skeletons = [1, 2, 3, 4];
 
     useEffect(() => {
+        setLoading(true);
         getAllPosts()
             .then(res => {
                 setPosts(res.data)
@@ -14,7 +18,21 @@ const PostsList = () => {
             .catch(err => {
                 console.log(err.message);
             })
+            .finally(() => {
+                setLoading(false);
+            })
     }, [])
+
+    if (isLoading)
+        return (
+            <List>
+                <VStack>
+                {skeletons.map(() => (
+                    <PostCardSkeleton />
+                ))}
+                </VStack>
+            </List>
+        )
 
     return (
         <List>
