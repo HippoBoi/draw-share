@@ -28,9 +28,19 @@ class UserSerializer(serializers.ModelSerializer):
         return user
     
 class PostSerializer(serializers.ModelSerializer):
+    user_details = serializers.SerializerMethodField()
+
     class Meta:
         model = Post
-        fields = ["id", "user", "title", "description", "image", "created_at"]
+        fields = ["id", "user", "user_details", "title", "description", "image", "created_at"]
+    
+    def get_user_details(self, obj):
+        return {
+            "id": obj.user.id,
+            "username": obj.user.username,
+            "email": obj.user.email,
+            "picture": obj.user.picture.url if obj.user.picture else None
+        }
     
     def create(self, validated_data):
         user = validated_data["user"]

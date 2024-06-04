@@ -27,8 +27,10 @@ const PostsList = () => {
         return (
             <List>
                 <VStack>
-                {skeletons.map(() => (
-                    <PostCardSkeleton />
+                {skeletons.map((id) => (
+                    <ListItem key={id}>
+                        <PostCardSkeleton />
+                    </ListItem>
                 ))}
                 </VStack>
             </List>
@@ -40,7 +42,7 @@ const PostsList = () => {
             {posts.map((post) => (
                 <ListItem key={post.id}>
                     <VStack spacing={"-5px"}>
-                        <PostCard post={post} userId={parseInt(post.user)} />
+                        <PostCard post={post} username={post.user_details.username}/>
                     </VStack>
                 </ListItem>
                 ))}
