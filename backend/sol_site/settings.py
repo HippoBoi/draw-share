@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-wliz%$d8jdz4iyj07lwcx)fd_7zkk9re0d3$2r8r9nz-4n17e4
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = True #os.environ.get('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['https://draw-share-hippo.onrender.com', 'localhost', '127.0.0.1']
 
 
@@ -163,9 +163,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = 'draw-site-bucket'
-AWS_S3_REGION_NAME = 'us-east-1'  # Por ejemplo, 'us-west-2'
-AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+AWS_STORAGE_BUCKET_NAME = 'draw-share-bucket'
+AWS_S3_REGION_NAME = 'sa-east-1'
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
 
 # Configuración de archivos estáticos
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
