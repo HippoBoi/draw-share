@@ -1,10 +1,11 @@
-import { Box, Center, HStack, Text, VStack } from '@chakra-ui/react'
+import { Box, Center, HStack, Text, VStack, useBreakpointValue } from '@chakra-ui/react'
 import PostsList from '../components/Posts/PostsList'
 import SideBar from '../components/SideBar';
 import { useNavigate } from 'react-router-dom';
 
 const Feed = () => {
     const navigate = useNavigate();
+    const smallScreen = useBreakpointValue({ base: true, lg: false });
 
     return (
         <>
@@ -19,7 +20,7 @@ const Feed = () => {
                 <SideBar />
             </Box>
         </Box>
-
+        
         <Center marginBottom={"50px"}>
             <HStack>
                 <Text>Parece que eso es todo por ahora. Vuelve más tarde o</Text>
