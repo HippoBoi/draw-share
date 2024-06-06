@@ -17,11 +17,11 @@ class UserSerializer(serializers.ModelSerializer):
 
         user = User(
             username = username,
-            email = email
+            email = email,
+            picture = picture
         )
 
         user.set_password(password)
-        user.picture = picture
 
         user.save()
 

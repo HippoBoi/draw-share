@@ -20,6 +20,26 @@ def register_user(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(["GET"])
+def get_user_by_name(request, username):
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return Response({"error" : "Couldn't find user"}, status=status.HTTP_404_NOT_FOUND)
+    
+    user_data = UserSerializer(user).data
+    return Response(user_data, status=status.HTTP_200_OK)
+
+@api_view(["GET"])
+def get_user_by_id(request, user_id):
+    try:
+        user = User.objects.get(pk=user_id)
+    except ObjectDoesNotExist:
+        return Response({"error": "Couldn't find user"}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = UserSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
 class UserDetail(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
@@ -32,25 +52,6 @@ class UserDetail(APIView):
             "picture": user.picture.url if user.picture else None
         }
         return Response(user_data, status=status.HTTP_200_OK)
-
-class PublicUserDetail(APIView):
-    def get(self, request, username):
-        try:
-            user = User.objects.get(username=username)
-            user_data = UserSerializer(user).data
-            return Response(user_data, status=status.HTTP_200_OK)
-        except User.DoesNotExist:
-            return Response({"error" : "Couldn't find user"}, status=status.HTTP_404_NOT_FOUND)
-
-@api_view(["GET"])
-def get_user_by_id(request, user_id):
-    try:
-        user = User.objects.get(pk=user_id)
-    except ObjectDoesNotExist:
-        return Response({"error": "Couldn't find user"}, status=status.HTTP_404_NOT_FOUND)
-    
-    serializer = UserSerializer(user)
-    return Response(serializer.data, status=status.HTTP_200_OK)
 
 class CustomTokenSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
