@@ -44,7 +44,7 @@ const ProfileMenuButton = ({ user }: Props) => {
                     color={useColorModeValue("gray.700", "gray.200")}>
                     <Center>
                     <Image 
-                        src={ user ? user.picture ? domain + user.picture : blankPfp : blankPfp } 
+                        src={ user ? user.picture ? user.picture : blankPfp : blankPfp } 
                         width={"35px"} 
                         height={"35px"} 
                         rounded={20}  />

@@ -12,13 +12,14 @@ from .serializers import UserSerializer, PostSerializer
 
 @api_view(["POST"])
 def register_user(request):
-    if (request.method == "POST"):
+    try:
         serializer = UserSerializer(data=request.data)
-
         if (serializer.is_valid()):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(["GET"])
 def get_user_by_name(request, username):
@@ -84,6 +85,7 @@ def create_post(request):
         "description": request.data["description"],
         "image": request.FILES.get("image")
     }
+
     try:
         serializer = PostSerializer(data=newData)
         if (serializer.is_valid()):

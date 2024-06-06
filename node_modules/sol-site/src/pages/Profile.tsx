@@ -22,7 +22,7 @@ const Profile = () => {
         <Box position={"relative"}>
             <Box position={"absolute"} left={"1%"} marginTop={2}>
                 <Image 
-                    src={ user ? user.picture ? domain + user.picture : blankPfp : blankPfp } 
+                    src={ user ? user.picture ? user.picture : blankPfp : blankPfp } 
                     boxSize={"300px"}
                     rounded={"md"}
                     boxShadow={"md"} />
