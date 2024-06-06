@@ -74,8 +74,8 @@ const PostForm = () => {
         <Box w="100%" maxW={ smallScreen ? "300px" : "800px"} mx="auto" mt="50px">
             <Text
                 bgGradient={textColor} as={"i"} fontWeight={"bold"} bgClip={"text"}
-                fontSize={"40px"} marginX={"-20px"}>
-                Crea un Post
+                fontSize={"40px"} marginX={"-20px"} decoration={"underline"}>
+                Publica un dibujo
             </Text>
 
             <form onSubmit={handleSubmit}>

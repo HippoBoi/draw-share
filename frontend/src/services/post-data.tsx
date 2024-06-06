@@ -19,3 +19,7 @@ export interface Post {
 export const getAllPosts = () => {
     return(apiClient.get("/users/posts/"));
 };
+
+export const getPostById = (postId: number) => {
+    return(apiClient.get(`/users/posts/${postId}`));
+};

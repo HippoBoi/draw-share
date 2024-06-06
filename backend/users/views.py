@@ -97,3 +97,13 @@ def get_posts(request):
     posts = Post.objects.all()
     serializer = PostSerializer(posts, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(["GET"])
+def get_post_by_id(request, post_id):
+    try:
+        posts = Post.objects.get(pk=post_id)
+    except ObjectDoesNotExist:
+        return Response({"error": "Couldn't find post"}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = PostSerializer(posts)
+    return Response(serializer.data, status=status.HTTP_200_OK)

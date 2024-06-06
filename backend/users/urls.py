@@ -10,5 +10,6 @@ urlpatterns = [
     path("token/", views.CustomTokenView.as_view(), name="token-obtain-pair"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
     path("post/", views.create_post, name="create_post"),
-    path("posts/", views.get_posts, name="get_posts")
+    path("posts/", views.get_posts, name="get_posts"),
+    path("posts/<int:post_id>", views.get_post_by_id, name="get_post_by_id")
 ]

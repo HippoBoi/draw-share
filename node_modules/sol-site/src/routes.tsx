@@ -5,6 +5,7 @@ import Feed from "./pages/Feed";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import PostForm from "./pages/PostForm";
+import PostPage from "./pages/PostPage";
 
 const router = createBrowserRouter([
     { path: "/", element: <Layout />, children: [
@@ -12,7 +13,8 @@ const router = createBrowserRouter([
         { path: "login", element: <LogIn /> },
         { path: "register", element: <SignUp />},
         { path: "user/:username", element: <Profile />},
-        { path: "post", element: <PostForm /> }
+        { path: "post", element: <PostForm /> },
+        { path: "posts/:userId/:postId", element: <PostPage />}
     ] }
 ])
 
