@@ -16,19 +16,17 @@ const PostPage = () => {
     );
 
     useEffect(() => {
-        if (!postId) {
-            return;
+        if (postId) {
+            getPostById(parseInt(postId))
+                .then(res => {
+                    const user = res.data.user_details;
+                    setPost(res.data);
+                    setUser(user);
+                })
+                .catch(err => {
+                    console.log(err.message);
+                })
         }
-
-        getPostById(parseInt(postId))
-            .then(res => {
-                const user = res.data.user_details;
-                setPost(res.data);
-                setUser(user);
-            })
-            .catch(err => {
-                console.log(err.message);
-            })
     }, [])
 
     if (!post || !user) {
@@ -39,31 +37,29 @@ const PostPage = () => {
         )
     }
 
-    if (!smallScreen) {
-        return (
-            <Center>
-            <Box>
-                <VStack marginTop={"40px"}>
-                    <Text fontWeight={"bold"} fontSize={"40px"}>{post.title}</Text>
-                    <Box boxSize={"350px"} bgGradient={gradientColor} bgBlendMode={"difference"}>
-                        <Image src={post.image} boxSize={"100%"} />
-                    </Box>
-                </VStack>
-            </Box>
-    
-            <Box marginLeft={"200px"} bgGradient={gradientColor}>
-                <Text textDecoration={"underline"}>Descripción</Text>
-                <Text marginTop={"20px"}>{post.description && post.description}</Text>
-            </Box>
-    
-            <Box position={"relative"}>
-                <Box position={"fixed"} left={"0%"} top={"50%"} transform="translateY(-50%)">
-                    <SideBar />
+    return (
+        <Center>
+        <Box>
+            <VStack marginTop={"40px"}>
+                <Text fontWeight={"bold"} fontSize={"40px"}>{post.title}</Text>
+                <Box boxSize={"350px"} bgGradient={gradientColor} bgBlendMode={"difference"}>
+                    <Image src={post.image} boxSize={"100%"} />
                 </Box>
+            </VStack>
+        </Box>
+
+        <Box marginLeft={"200px"} bgGradient={gradientColor}>
+            <Text textDecoration={"underline"}>Descripción</Text>
+            <Text marginTop={"20px"}>{post.description && post.description}</Text>
+        </Box>
+
+        <Box position={"relative"}>
+            <Box position={"fixed"} left={"0%"} top={"50%"} transform="translateY(-50%)">
+                <SideBar />
             </Box>
-            </Center>
-        )
-    }
+        </Box>
+        </Center>
+    );
 }
 
 export default PostPage
