@@ -110,3 +110,13 @@ def get_post_by_id(request, post_id):
     
     serializer = PostSerializer(posts)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(["GET"])
+def get_posts_by_query(request):
+    query = request.query_params.get("q", None)
+    if query is not None:
+        posts = Post.objects.filter(title__icontains=query) | Post.objects.filter(description__icontains=query)
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response({"error": "Couldn't find query param"}, status=status.HTTP_400_BAD_REQUEST)
