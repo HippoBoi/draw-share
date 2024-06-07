@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
 import { User } from "./user-data";
-import { userAction } from "../pages/userReducer";
 import React from "react";
+import { userAction } from "../pages/userReducer";
 
 interface UserContextType {
     user: User | null;

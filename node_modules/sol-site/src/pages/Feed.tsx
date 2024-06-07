@@ -3,16 +3,40 @@ import PostsList from '../components/Posts/PostsList'
 import SideBar from '../components/SideBar';
 import { useNavigate } from 'react-router-dom';
 import SearchInput from '../components/SearchInput';
+import { useContext, useEffect, useState } from 'react';
+import { Post, getAllPosts, getPostByQuery } from '../services/post-data';
+import SearchContext from '../services/searchContext';
+import { useDebounce } from 'use-debounce';
+
+const DEBOUNCE_TIME = 400;
 
 const Feed = () => {
     const navigate = useNavigate();
     const smallScreen = useBreakpointValue({ base: true, lg: false });
+    const { search } = useContext(SearchContext);
+    const [debouncedSearch] = useDebounce(search, DEBOUNCE_TIME);
+    const [posts, setPosts] = useState<Post[]>([]);
+    const [isLoading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true);
+        getPostByQuery(debouncedSearch)
+            .then(res => {
+                setPosts(res.data);
+            })
+            .catch(err => {
+                console.log(err.message);
+            })
+            .finally(() => {
+                setLoading(false);
+            })
+    }, [debouncedSearch])
 
     return (
         <>
         <VStack marginTop={"50px"} marginBottom={"100px"}>
             <Text as={"i"}>Dibujos</Text>
-            <PostsList></PostsList>
+            <PostsList posts={posts} isLoading={isLoading}></PostsList>
         </VStack>
 
         <Box position={"relative"}>

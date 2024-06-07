@@ -4,6 +4,8 @@ import { Box, useColorModeValue } from '@chakra-ui/react';
 import { useReducer } from 'react';
 import userReducer from './userReducer';
 import UserContext from '../services/userContext';
+import searchReducer from '../services/searchReducer';
+import SearchContext from '../services/searchContext';
 
 const Layout = () => {
     const gradientColor = useColorModeValue(
@@ -11,6 +13,7 @@ const Layout = () => {
         "linear(to-r, #2a2427, #1f191c)"
     )
     const [user, dispatch] = useReducer(userReducer, null);
+    const [search, searchDispatch] = useReducer(searchReducer, "");
 
     return (
         <Box
@@ -18,10 +21,12 @@ const Layout = () => {
             minH="100vh"
             py={4}
             paddingTop={16}>
+            <SearchContext.Provider value={{ search, dispatch: searchDispatch }}>
             <UserContext.Provider value={{ user, dispatch }}>
                 <NavBar />
                 <Outlet />
             </UserContext.Provider>
+            </SearchContext.Provider>
         </Box>
     )
 }

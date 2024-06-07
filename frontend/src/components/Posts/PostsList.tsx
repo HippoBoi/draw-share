@@ -4,24 +4,13 @@ import { useEffect, useState } from 'react';
 import PostCard from './PostCard';
 import PostCardSkeleton from './PostCardSkeleton';
 
-const PostsList = () => {
-    const [posts, setPosts] = useState<Post[]>([]);
-    const [isLoading, setLoading] = useState(false);
-    const skeletons = [1, 2, 3, 4];
+interface Props {
+    posts: Post[];
+    isLoading: boolean;
+}
 
-    useEffect(() => {
-        setLoading(true);
-        getAllPosts()
-            .then(res => {
-                setPosts(res.data)
-            })
-            .catch(err => {
-                console.log(err.message);
-            })
-            .finally(() => {
-                setLoading(false);
-            })
-    }, [])
+const PostsList = ({ posts, isLoading }: Props) => {
+    const skeletons = [1, 2, 3, 4];
 
     if (isLoading)
         return (
