@@ -12,5 +12,6 @@ urlpatterns = [
     path("post/", views.create_post, name="create_post"),
     path("posts/", views.get_posts, name="get_posts"),
     path("posts/<int:post_id>", views.get_post_by_id, name="get_post_by_id"),
-    path("posts/search/", views.get_posts_by_query, name="get_posts_by_query")
+    path("posts/search/", views.get_posts_by_query, name="get_posts_by_query"),
+    path("posts/user/<str:username>/", views.get_posts_by_username, name="get_posts_by_username")
 ]

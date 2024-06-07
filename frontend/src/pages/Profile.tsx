@@ -3,7 +3,6 @@ import { User, getUserDataByName } from '../services/user-data';
 import blankPfp from "../assets/blank-pfp.webp"
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { domain } from '../services/api-client';
 
 const Profile = () => {
     const [user, setUser] = useState<User | null>(null);

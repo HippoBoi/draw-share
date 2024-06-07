@@ -120,3 +120,14 @@ def get_posts_by_query(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     else:
         return Response({"error": "Couldn't find query param"}, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(["GET"])
+def get_posts_by_username(request, username):
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return Response({"error": "Couldn't find user"}, status=status.HTTP_404_NOT_FOUND)
+    
+    posts = Post.objects.filter(user=user)
+    serializer = PostSerializer(posts, many=True)
+    return Response(status=status.HTTP_200_OK)
