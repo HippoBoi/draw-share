@@ -53,12 +53,12 @@ const NavBar = () => {
             </Box>
 
             <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
-                <Link as={"button"} onClick={() => navigate("/")} px={2} py={1} rounded={'md'} 
+                <Link as={"button"} onClick={() => navigate("/guidelines")} px={2} py={1} rounded={'md'} 
                     _hover={{ bg: bgColor }}>
-                    Reglas
+                    Acerca de
                 </Link>
 
-                <Link as={"button"} onClick={() => navigate("/")} px={2} py={1} rounded={'md'} 
+                <Link as={"button"} onClick={() => navigate("/contact")} px={2} py={1} rounded={'md'} 
                     _hover={{ bg: bgColor }}>
                     Contacto
                 </Link>
