@@ -23,3 +23,7 @@ export const getAllPosts = () => {
 export const getPostById = (postId: number) => {
     return(apiClient.get(`/users/posts/${postId}`));
 };
+
+export const getPostByQuery = (searchQuery: string) => {
+    return(apiClient.get(`/users/posts/search/?q=${searchQuery}`));
+}
