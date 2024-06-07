@@ -1,11 +1,16 @@
 import { Box, Flex, HStack, Link, useColorMode, useColorModeValue, 
     IconButton, Text, 
-    Spinner} from '@chakra-ui/react';
+    Spinner,
+    Center,
+    useBreakpointValue} from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProfileMenuButton from './ProfileMenuButton';
 import UserContext from '../services/userContext';
 import { getUserData } from '../services/user-data';
+import SearchInput from './SearchInput';
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import SwitchTheme from './SwitchTheme';
 
 const NavBar = () => {
     const { user, dispatch } = useContext(UserContext);
@@ -17,6 +22,7 @@ const NavBar = () => {
         "linear(to-r, #100913, #100913)"
     );
     const token = localStorage.getItem("token");
+    const smallScreen = useBreakpointValue({ base: true, lg: false });
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -58,17 +64,14 @@ const NavBar = () => {
                 </Link>
             </HStack>
 
+            <Flex alignItems={'center'} marginLeft={ smallScreen ? "0px" : "165px"}>
+                <SearchInput />
+            </Flex>
+
             </HStack>
 
             <Flex alignItems={'center'}>
-            <IconButton
-                size="md"
-                padding={"20px"}
-                icon={colorMode === 'light' ? <Text>Dark Mode</Text> : <Text>Light Mode</Text>}
-                aria-label="Toggle Color Mode"
-                onClick={toggleColorMode}
-                mr={4}
-            />
+            <SwitchTheme colorMode={colorMode} toggleColorMode={toggleColorMode} />
 
             <HStack spacing={"-5px"}>
                 {!loading ? (

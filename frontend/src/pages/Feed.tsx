@@ -2,6 +2,7 @@ import { Box, Center, HStack, Text, VStack, useBreakpointValue } from '@chakra-u
 import PostsList from '../components/Posts/PostsList'
 import SideBar from '../components/SideBar';
 import { useNavigate } from 'react-router-dom';
+import SearchInput from '../components/SearchInput';
 
 const Feed = () => {
     const navigate = useNavigate();
@@ -10,7 +11,6 @@ const Feed = () => {
     return (
         <>
         <VStack marginTop={"50px"} marginBottom={"100px"}>
-
             <Text as={"i"}>Dibujos</Text>
             <PostsList></PostsList>
         </VStack>
