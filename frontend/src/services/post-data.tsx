@@ -24,6 +24,10 @@ export const getPostById = (postId: number) => {
     return(apiClient.get(`/users/posts/${postId}`));
 };
 
-export const getPostByQuery = (searchQuery: string) => {
+export const getPostByQuery = (searchQuery: string) => { // misstype, this gets multiple posts
     return(apiClient.get(`/users/posts/search/?q=${searchQuery}`));
+}
+
+export const getPostsByUsername = (username: string) => {
+    return(apiClient.get(`/users/posts/user/${username}`));
 }

@@ -3,9 +3,13 @@ import { User, getUserDataByName } from '../services/user-data';
 import blankPfp from "../assets/blank-pfp.webp"
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Post, getPostsByUsername } from '../services/post-data';
 
 const Profile = () => {
     const [user, setUser] = useState<User | null>(null);
+    const [posts, setPosts] = useState<Post[]>([]);
+    const [userLoading, setUserLoading] = useState(false);
+    const [postsLoading, setPostsLoading] = useState(false);
     const { username } = useParams();
 
     useEffect(() => {
@@ -13,7 +17,12 @@ const Profile = () => {
             getUserDataByName(username)
                 .then(res => {
                     setUser(res.data);
-                })
+                });
+
+            getPostsByUsername(username)
+                .then(res => {
+                    setPosts(res.data);
+                });
         }
     }, [username])
 

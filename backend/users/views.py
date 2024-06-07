@@ -130,4 +130,4 @@ def get_posts_by_username(request, username):
     
     posts = Post.objects.filter(user=user)
     serializer = PostSerializer(posts, many=True)
-    return Response(status=status.HTTP_200_OK)
+    return Response(serializer.data, status=status.HTTP_200_OK)
