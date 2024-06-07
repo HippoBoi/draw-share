@@ -22,7 +22,9 @@ const PostCard = ({ post, username }: Props) => {
             <Text fontSize={"20px"} fontWeight={"bold"}>{post.title}</Text>
             <HStack>
                 <Text as={"i"}>Por:</Text>
-                <Button variant={"link"}>{username}</Button>
+                <Button 
+                    variant={"link"} onClick={() => navigate(`/user/${username}`)}>
+                    {username}</Button>
             </HStack>
             <CardBody>
                 <Center>
