@@ -1,4 +1,6 @@
-import { VStack, Box, useColorModeValue, IconButton, Drawer, DrawerContent, DrawerCloseButton, DrawerBody, useBreakpointValue, DrawerHeader } from '@chakra-ui/react'
+import { VStack, Box, useColorModeValue, IconButton, Drawer, DrawerContent, 
+    DrawerCloseButton, DrawerBody, useBreakpointValue, DrawerHeader } from '@chakra-ui/react'
+import { HamburgerIcon } from "@chakra-ui/icons";
 import { useState } from 'react';
 import SideBarContent from './SideBarContent';
 
@@ -12,6 +14,7 @@ const SideBar = () => {
             <>
             <IconButton
                     aria-label="Open sidebar"
+                    icon={<HamburgerIcon />}
                     position="fixed"
                     top={"10%"}
                     left={1}
