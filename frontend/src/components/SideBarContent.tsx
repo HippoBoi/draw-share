@@ -5,7 +5,8 @@ import { AddIcon } from "@chakra-ui/icons";
 
 const SideBarContent = () => {
     const navigate = useNavigate();
-    const bgColor = useColorModeValue("red.200", "red.700");
+    const postColor = useColorModeValue("red.300", "red.800");
+    const bgColor = useColorModeValue("red.100", "red.600");
 
     return (
         <>
@@ -19,17 +20,19 @@ const SideBarContent = () => {
             <LinkButton>Guardados</LinkButton>
         </HStack>
 
-        <VStack marginTop={"35px"}>
-            <Card 
-                padding={1}
-                _hover={{ bg: bgColor }}
-                onClick={() => navigate("/post")}>
+        <Card
+            marginTop={"50px"}
+            padding={1}
+            bg={postColor}
+            _hover={{ bg: bgColor, "cursor": "pointer" }}
+            onClick={() => navigate("/post")}>
+            <VStack>
                 <Text>
                     Publicar
                 </Text>
                 <AddIcon />
-            </Card>
-        </VStack>
+            </VStack>
+        </Card>
         </>
     );
 }
