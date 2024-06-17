@@ -2,6 +2,7 @@ import { Button, Center, FormControl, FormLabel, Input, Image, Box, Text, useCol
 import { ChangeEvent, FormEvent, useContext, useState } from 'react'
 import apiClient from '../services/api-client';
 import UserContext from '../services/userContext';
+import { useNavigate } from 'react-router-dom';
 
 const PostForm = () => {
     const { user } = useContext(UserContext);
@@ -12,6 +13,7 @@ const PostForm = () => {
     const [isLoading, setLoading] = useState(false);
     const smallScreen = useBreakpointValue({ base: true, lg: false });
     const toast = useToast();
+    const navigate = useNavigate();
     const textColor = useColorModeValue(
         "linear(to-r, #542c31, #12090b)",
         "linear(to-r, #d4dadf, #f26f9d)"
@@ -45,6 +47,7 @@ const PostForm = () => {
                     duration: 4000,
                     isClosable: true
                 })
+                navigate("/");
             })
             .catch(err => {
                 toast({

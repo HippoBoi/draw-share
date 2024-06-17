@@ -1,8 +1,7 @@
-import { Box, Center, HStack, Text, VStack, useBreakpointValue } from '@chakra-ui/react'
+import { Box, Center, HStack, Text, VStack } from '@chakra-ui/react'
 import PostsList from '../components/Posts/PostsList'
 import SideBar from '../components/SideBar';
 import { useNavigate } from 'react-router-dom';
-import SearchInput from '../components/SearchInput';
 import { useContext, useEffect, useState } from 'react';
 import { Post, getAllPosts, getPostByQuery } from '../services/post-data';
 import SearchContext from '../services/searchContext';

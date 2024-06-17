@@ -1,6 +1,7 @@
-import { HStack } from '@chakra-ui/react'
+import { HStack, VStack } from '@chakra-ui/react'
 import LinkButton from './LinkButton'
 import { useNavigate } from 'react-router-dom';
+import { AddIcon } from "@chakra-ui/icons";
 
 const SideBarContent = () => {
     const navigate = useNavigate();
@@ -17,9 +18,12 @@ const SideBarContent = () => {
             <LinkButton>Guardados</LinkButton>
         </HStack>
 
-        <HStack>
-            <LinkButton onClick={() => navigate("/post")}>Publicar</LinkButton>
-        </HStack>
+        <VStack marginTop={"25px"}>
+            <LinkButton onClick={() => navigate("/post")}>
+                Publicar
+            </LinkButton>
+            <AddIcon />
+        </VStack>
         </>
     );
 }

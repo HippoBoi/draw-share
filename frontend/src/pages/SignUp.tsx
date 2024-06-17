@@ -48,7 +48,8 @@ const SignUp = () => {
                     status: "success",
                     duration: 4000,
                     isClosable: true
-                })
+                });
+                navigate("/login");
             })
             .catch(err => {
                 toast({
