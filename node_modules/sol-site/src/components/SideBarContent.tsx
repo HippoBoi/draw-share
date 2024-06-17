@@ -1,10 +1,11 @@
-import { HStack, VStack } from '@chakra-ui/react'
+import { HStack, VStack, Text, Card, useColorModeValue } from '@chakra-ui/react'
 import LinkButton from './LinkButton'
 import { useNavigate } from 'react-router-dom';
 import { AddIcon } from "@chakra-ui/icons";
 
 const SideBarContent = () => {
     const navigate = useNavigate();
+    const bgColor = useColorModeValue("red.200", "red.700");
 
     return (
         <>
@@ -18,11 +19,16 @@ const SideBarContent = () => {
             <LinkButton>Guardados</LinkButton>
         </HStack>
 
-        <VStack marginTop={"25px"}>
-            <LinkButton onClick={() => navigate("/post")}>
-                Publicar
-            </LinkButton>
-            <AddIcon />
+        <VStack marginTop={"35px"}>
+            <Card 
+                padding={1}
+                _hover={{ bg: bgColor }}
+                onClick={() => navigate("/post")}>
+                <Text>
+                    Publicar
+                </Text>
+                <AddIcon />
+            </Card>
         </VStack>
         </>
     );
