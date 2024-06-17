@@ -7,21 +7,18 @@ import { useContext, useEffect, useState } from 'react';
 import { Post, getAllPosts, getPostByQuery } from '../services/post-data';
 import SearchContext from '../services/searchContext';
 import { useDebounce } from 'use-debounce';
+import WaitMessage from '../components/WaitMessage';
 
 const DEBOUNCE_TIME = 400;
 
 const Feed = () => {
     const navigate = useNavigate();
-    const [showMessage, setShowMessage] = useState(false);
     const { search } = useContext(SearchContext);
     const [debouncedSearch] = useDebounce(search, DEBOUNCE_TIME);
     const [posts, setPosts] = useState<Post[]>([]);
     const [isLoading, setLoading] = useState(false);
 
     useEffect(() => {
-        const timeout = setTimeout(() => {
-            setShowMessage(true);
-        }, 6000); // 6 seg
         setLoading(true);
         getPostByQuery(debouncedSearch)
             .then(res => {
@@ -33,30 +30,15 @@ const Feed = () => {
             .finally(() => {
                 setLoading(false);
             })
-
-        return () => clearTimeout(timeout);
     }, [debouncedSearch])
 
     return (
         <>
         <VStack marginTop={"50px"} marginBottom={"100px"}>
             <Text as={"i"}>Dibujos</Text>
+            <WaitMessage />
             <PostsList posts={posts} isLoading={isLoading}></PostsList>
         </VStack>
-
-        {showMessage && (
-        <Center>
-            <Text
-                as={"b"} 
-                fontSize={"20px"}
-                decoration={"underline"}
-                _hover={{"color": "red.400", 
-                    "fontSize": "17px",
-                    "transition": "0.2s ease"}}>
-                El servidor está iniciandose. Porfavor espera unos minutos.
-            </Text>
-        </Center>
-        )}
 
         <Box position={"relative"}>
             <Box position={"fixed"} left={"0%"} top={"50%"} transform="translateY(-50%)">
