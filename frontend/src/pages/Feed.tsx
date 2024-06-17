@@ -36,7 +36,9 @@ const Feed = () => {
         <>
         <VStack marginTop={"50px"} marginBottom={"100px"}>
             <Text as={"i"}>Dibujos</Text>
-            <WaitMessage />
+            {isLoading && (
+                <WaitMessage />
+            )}
             <PostsList posts={posts} isLoading={isLoading}></PostsList>
         </VStack>
 
